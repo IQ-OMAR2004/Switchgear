@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/* Dark mode is driven by a data-theme attribute on <html>, set before paint
+   by an inline script (see app/layout.tsx) and toggled by the theme switch. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ------------------------------------------------------------------ *
+ *  alfanar brand tokens  (values from alfanar-brand-book.html)
+ *  Semantic CSS variables swap per theme; @theme inline below maps
+ *  them to Tailwind colour/utility tokens that resolve at runtime.
+ * ------------------------------------------------------------------ */
+:root {
+  color-scheme: light;
+
+  /* surfaces */
+  --bg: #f4f8fc;          /* mist white — dominant page surface */
+  --surface: #ffffff;     /* primary canvas / cards */
+  --panel: #e9f2fa;       /* mist — soft sections */
+  --panel-2: #deeaf4;     /* deeper soft panel */
+
+  /* text */
+  --ink: #16202c;         /* primary text */
+  --ink-2: #3c4b5b;       /* secondary text */
+  --muted: #586676;       /* steel — captions / labels (AA: ≥4.5:1 on light surfaces) */
+
+  /* brand darks */
+  --navy: #0b2138;
+  --navy-2: #0f2f4d;
+
+  /* brand accents — --accent is the AA-safe deep alfanar blue used as text;
+     --accent-bright is the brighter brand blue reserved for decor/large/icons. */
+  --accent: #0869a0;      /* alfanar blue — text, links, active, icons (5.6:1 on bg) */
+  --accent-2: #075d8c;    /* deep blue — hover / pressed */
+  --accent-bright: #0a82c6;
+  --sky: #37a7e0;         /* light support / highlights */
+  --gold: #e8b23a;        /* busbars / beacon light */
+  --danger: #c0392b;      /* warnings / arc / fault */
+
+  /* interactive (AA-tuned) */
+  --link: #0869a0;        /* link / interactive text on light (≥4.5:1) */
+  --cta-bg: #0869a0;      /* primary button fill */
+  --cta-bg-hover: #075d8c;
+  --cta-fg: #ffffff;
+
+  /* lines */
+  --line: rgba(11, 33, 56, 0.14);     /* card / section borders */
+  --line-strong: rgba(11, 33, 56, 0.24);
+  --grid-line: rgba(10, 130, 198, 0.08); /* faint 34px dot/line grid */
+
+  /* material accents (3D / diagrams) */
+  --copper: #b87333;
+
+  /* 3D scene */
+  --scene-bg: #e8f0f8;
+  --scene-bg-2: #d7e6f3;
+
+  /* effects */
+  --shadow-color: 10, 130, 198;        /* alfanar-blue-tinted shadows */
+  --radius: 12px;                      /* default card radius */
+  --radius-lg: 18px;
+  --radius-pill: 30px;
+
+  /* layout */
+  --wrap: 1120px;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #07151f;
+  --surface: #0f2a40;
+  --panel: #102f49;
+  --panel-2: #163a59;
+
+  --ink: #eaf2fa;
+  --ink-2: #c2d2e2;
+  --muted: #8ea3b7;
+
+  --navy: #0b2138;
+  --navy-2: #0f2f4d;
+
+  --accent: #37a7e0;      /* brighter on dark for visibility (6.8:1 on bg) */
+  --accent-2: #5bbdf0;
+  --accent-bright: #5bbdf0;
+  --sky: #6fc2ee;
+  --gold: #f0c259;
+  --danger: #ef8a7f;      /* lighter coral so error text clears AA on dark surfaces */
+
+  --link: #6fc2ee;        /* ≥4.5:1 on dark surfaces */
+  --cta-bg: #2e9bda;
+  --cta-bg-hover: #4caee6;
+  --cta-fg: #06283c;      /* dark text on bright blue fill */
+
+  --line: rgba(255, 255, 255, 0.12);
+  --line-strong: rgba(255, 255, 255, 0.2);
+  --grid-line: rgba(55, 167, 224, 0.07);
+
+  --scene-bg: #0a1c2c;
+  --scene-bg-2: #061320;
+
+  --shadow-color: 0, 0, 0;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+
+  --color-navy: var(--navy);
+  --color-navy-2: var(--navy-2);
+
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-bright: var(--accent-bright);
+  --color-sky: var(--sky);
+  --color-gold: var(--gold);
+  --color-danger: var(--danger);
+  --color-link: var(--link);
+  --color-copper: var(--copper);
+
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --font-display: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, monospace;
+
+  --radius-card: var(--radius);
+  --radius-pill: var(--radius-pill);
+}
+
+/* ------------------------------------------------------------------ *
+ *  Base
+ * ------------------------------------------------------------------ */
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    font-feature-settings: "ss01", "cv05";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  ::selection {
+    background: var(--accent);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  /* Respect reduced motion globally */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ *  Components / utilities
+ * ------------------------------------------------------------------ */
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .wrap { padding-inline: 2rem; }
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-feature-settings: "tnum";
+    letter-spacing: 0.01em;
+  }
+
+  /* faint engineering dot/line grid background */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+}
