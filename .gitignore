@@ -31,3 +31,6 @@ next-env.d.ts
 .vscode/*
 !.vscode/extensions.json
 .idea
+
+# CI workflow kept out of git (token lacks workflow scope)
+.github/

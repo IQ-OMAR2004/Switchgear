@@ -1,4 +1,5 @@
 import { cn } from "@/lib/cn";
+import { withBase } from "@/lib/base-path";
 
 /**
  * The alfanar beacon — a restrained lighthouse / beam motif.
@@ -54,13 +55,13 @@ export function Wordmark({
     <span className={cn("inline-flex items-center gap-3", className)}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/brand/alfanar-logo-blue.svg"
+        src={withBase("/brand/alfanar-logo-blue.svg")}
         alt="alfanar"
         className="block h-8 w-auto dark:hidden"
       />
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/brand/alfanar-logo-white.svg"
+        src={withBase("/brand/alfanar-logo-white.svg")}
         alt="alfanar"
         className="hidden h-8 w-auto dark:block"
       />

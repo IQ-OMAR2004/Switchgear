@@ -1,6 +1,9 @@
 import type { MetadataRoute } from "next";
 import { PRODUCTS } from "@/data/products";
 
+// Required for `output: export` — emit a static sitemap.xml at build time.
+export const dynamic = "force-static";
+
 const BASE = "https://alfanar-switchgear.example.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
